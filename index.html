@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saludo Personalizado</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #1e293b, var(--bg));
+      color: var(--text);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    .icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(99, 102, 241, 0.15);
+      font-size: 1.75rem;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      margin: 0 0 1.75rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .field {
+      text-align: left;
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.05s;
+    }
+
+    button:hover { background: var(--accent-hover); }
+    button:active { transform: scale(0.99); }
+
+    .greeting {
+      margin-top: 1.5rem;
+      min-height: 1.5rem;
+      font-size: 1.15rem;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .greeting.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="icon">👋</div>
+    <h1>Bienvenido</h1>
+    <p class="subtitle">Escribe tu nombre y te saludaremos.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="name">Nombre</label>
+        <input id="name" type="text" placeholder="Ej. María" autocomplete="name" required>
+      </div>
+      <button type="submit">Saludar</button>
+    </form>
+
+    <p id="greeting" class="greeting" role="status" aria-live="polite"></p>
+  </main>
+
+  <script>
+    const form = document.getElementById("form");
+    const input = document.getElementById("name");
+    const greeting = document.getElementById("greeting");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = input.value.trim();
+
+      if (!name) {
+        greeting.textContent = "Por favor escribe tu nombre 🙂";
+        greeting.classList.add("show");
+        input.focus();
+        return;
+      }
+
+      greeting.textContent = `¡Hola, ${name}! 🎉 Un gusto tenerte aquí.`;
+      greeting.classList.remove("show");
+      // Reinicia la animación
+      void greeting.offsetWidth;
+      greeting.classList.add("show");
+    });
+  </script>
+</body>
+</html>
